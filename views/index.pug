@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to my sailaja life. I don't like disturb people who are not intersted to talk with me.They should clearn enough before making friends. if  not dont go bilndly 
+ 
+ 
+  button(type="button", class="btn btn-primary"  onclick="doReduce()") Press Me
+  div(id="reduce") Reduce the value
+  a(href='http://localhost:3000/ball') Link
+  script.
+    let count=20;
+    let change =-1;
+    function doReduce(){
+      count=count+change;
+      change=change-1;
+      document.getElementById('reduce').innerHTML=`Count ${count} with Change ${change}`
+    }
