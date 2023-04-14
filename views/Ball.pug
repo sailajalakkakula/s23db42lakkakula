@@ -2,10 +2,10 @@ extends layout
 
 block content
   h1= title
-  - let results = [{Ball_Type:"Cricket Ball",Ball_Weight:"155.9g",Ball_Cost:"$11.57"},{Ball_Type:"Foot Ball",Ball_Weight:"410g",Ball_Cost:"$50"},{Ball_Type:"Basketball",Ball_Weight:"588g",Ball_Cost:"$22"}]
+  - let items =results
   div(class="container-fluid")
     div(class="row")
-      each item,index in results
+      each item,index in items
         div(class="col-sm-2",onClick=`buy(${index})`)
           p Type is #{item.Ball_Type}
           p Length is #{item.Ball_Weight}
