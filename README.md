@@ -1,8 +1,8 @@
-# s23wb42lakkakula
+# s23db42lakkakula
 
 First page of pug
 
-[Repo link to render](https://s23wb42lakkakula.onrender.com)
+[Repo link to render](https://s23db42lakkakula.onrender.com)
 
 1.Ball_Type(String)
 
