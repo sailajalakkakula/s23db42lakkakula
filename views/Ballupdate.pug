@@ -1,0 +1,50 @@
+extends layout
+
+
+block content
+
+  h1(id="title")= title
+  if (toShow == null)
+    h2 No instance to update
+  else
+  - let BallId = toShow._id
+  - let Ball_Type = toShow.Ball_Type
+  - let Ball_Weight = toShow.Ball_Weight
+  - let Ball_Cost = toShow.Ball_Cost
+
+ 
+
+  div.row(class='mb-2')
+    div.mr-1 ID is
+    div(class='details') #{BallId}
+  - let actionid = "/resource/Balls/" + BallId
+
+  form(id='BallForm', action= actionid, method="PUT")
+    div.form-group
+        label.ringAttr(for='Ball_Type') Ball_Type
+        input#UniversityNname(type='text', name='Ball_Type', value= Ball_Type )
+    div.form-group
+        label.ringAttr(for='Ball_Weight') Ball_Weight
+        input#City(type='text', name='Ball_Weight', value= Ball_Weight )
+    div.form-group
+        label.ringAttr(for='Ball_Cost') Ball_Cost
+        input#Students(type='number', name='Ball_Cost', value= Ball_Cost )
+    input(type="submit")
+
+  script.
+    document.forms['BallForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeded")
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+      });
+    });

@@ -8,7 +8,7 @@ var Ball_controller = require('../controllers/Ball');
 router.get('/', api_controller.api);
 /// Ball ROUTES ///
 // POST request for creating a Ball.
-router.post('/Balls', Ball_controller.Ball_create_post);
+router.post('/Ball', Ball_controller.Ball_create_post);
 // DELETE request to delete Ball.
 router.delete('/Balls/:id', Ball_controller.Ball_delete);
 // PUT request to update Ball.

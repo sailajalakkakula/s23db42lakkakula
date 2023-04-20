@@ -33,13 +33,10 @@ exports.Ball_detail = async function (req, res) {
 };
 // Handle Ball create on POST.
 exports.Ball_create_post = async function (req, res) {
-    //res.send('NOT IMPLEMENTED: Ball create POST');
+    
     console.log(req.body)
     let document = new Ball();
-    // We are looking for a body, since POST does not have query parameters.
-    // Even though bodies can be in many different formats, we will be picky
-    // and require that it be a json object
-    // {"Ball_type":"goat", "cost":12, "size":"large"}
+  
     document.Ball_Type = req.body.Ball_Type;
     document.Ball_Weight = req.body.Ball_Weight;
     document.Ball_Cost = req.body.Ball_Cost;
@@ -52,10 +49,21 @@ exports.Ball_create_post = async function (req, res) {
         res.send(`{"error": ${err}}`);
     }
 };
-// Handle Ball delete form on DELETE.
-exports.Ball_delete = function (req, res) {
-    res.send('NOT IMPLEMENTED: Ball delete DELETE ' + req.params.id);
-};
+
+
+
+// Handle Ball delete on DELETE.
+exports.Ball_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await Ball.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+   };
 // Handle Ball update form on PUT.
 // exports.Ball_update_put = function (req, res) {
 //     res.send('NOT IMPLEMENTED: Ball update PUT' + req.params.id);
@@ -94,3 +102,63 @@ exports.Ball_view_all_Page = async function (req, res) {
         res.send(`{"error": ${err}}`);
     }
 };
+
+
+// Handle a show one view with id specified by query
+exports.Ball_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await Ball.findById( req.query.id)
+    res.render('Balldetail',
+   { title: 'Ball Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };
+
+
+   // Handle building the view for creating a Ball.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.Ball_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('Ballcreate', { title: 'Ball Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };
+
+
+// Handle building the view for updating a Ball.
+// query provides the id
+exports.Ball_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await Ball.findById(req.query.id)
+    res.render('Ballupdate', { title: 'Ball Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };
+
+
+// Handle a delete one view with id from query
+exports.Ball_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await Ball.findById(req.query.id)
+    res.render('Balldelete', { title: 'Ball Delete', toShow:
+   result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };

@@ -1,0 +1,52 @@
+extends layout
+
+block content
+ h1= title
+ if (toShow == null)
+  h2 No instance to delete
+ else
+  - let BallId = toShow._id
+  - let Ball_Type = toShow.Ball_Type
+  - let Ball_Weight = toShow.Ball_Weight
+  - let Ball_Cost = toShow.Ball_Cost
+  - let actionid = "/resource/Ball/" + BallId
+  script let actionid = "#{actionid}"
+  div
+   div.row
+    div(class='BallAttr mr-3') Ball ID is:
+    div #{BallId}
+   div.row
+    div(class='BallAttr mr-3') Ball Type is:
+    div #{Ball_Type}
+   div.row
+    div(class='BallAttr mr-3') Ball Weight is:
+    div #{Ball_Weight}
+   div.row
+    div(class='BallAttr mr-3') Ball Cost is:
+    div #{Ball_Cost}
+  button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+  button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+ script.
+  function cancel() {
+   // Go back to the home page for the dog collection
+   window.location.href='/Ball'
+  }
+ script.
+  function deleteOnid() {
+   console.log("starting delete")
+   // delete first
+   fetch(actionid, {
+    method: 'DELETE' // Don't need a body for the delete
+   }).then((resp) => {
+   
+    return resp.json(); // or resp.text() or whatever the server sends
+   }).then((body) => {
+    alert("Delete succeded")
+   window.location.href='/Ball'
+   // TODO handle body
+   }).catch((error) => {
+   // TODO handle error
+    alert("Delete succeded")
+    alert("Delete failed " + error )
+   });
+  }

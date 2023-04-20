@@ -6,3 +6,23 @@ body {
 a {
   color: #00B7FF;
 }
+
+.BallAttr {
+  background-color: rgb(217, 127, 255);
+  width: 120px;
+ }
+
+ .vehicalsAttr {
+  background-color: violet;
+  width: 120px;
+  }
+
+  #vehicalsForm {
+    background-color:rgb(14, 237, 137);
+    width: 325px;
+  }
+  
+  h1{
+    color: rgb(108, 29, 218);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }

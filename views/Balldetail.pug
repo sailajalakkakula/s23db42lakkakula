@@ -1,0 +1,21 @@
+extends layout
+
+block content
+ h1= title
+ - let Ballid = toShow._id
+ - let Ball_Type = toShow.Ball_Type
+ - let Ball_Weight = toShow.Ball_Weight
+ - let Ball_Cost = toShow.Ball_Cost
+ div
+  div.row
+   div(class='BallAttr mr-3') Ball ID is:
+   div #{Ballid}
+  div.row
+   div(class='BallAttr mr-3') Ball Type is:
+   div #{Ball_Type}
+  div.row
+   div(class='BallAttr mr-3') Ball weight is:
+   div #{Ball_Weight}
+  div.row
+   div(class='BallAttr mr-3') Ball Cost is:
+   div #{Ball_Cost}

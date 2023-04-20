@@ -30,7 +30,7 @@ const connectionString =process.env.MONGO_CON
 mongoose = require('mongoose');
 mongoose.connect(connectionString,{useNewUrlParser: true,useUnifiedTopology: true});
 
-app.use('/ball', BallRouter);
+app.use('/Ball', BallRouter);
 app.use('/board', boardRouter);
 app.use('/selector',selectorRouter);
 app.use('/resource',resourceRouter);
