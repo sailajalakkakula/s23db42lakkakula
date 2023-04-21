@@ -11,8 +11,14 @@ var boardRouter = require('./routes/board');
 var selectorRouter = require('./routes/selector');
 var resourceRouter = require('./routes/resource');
 
+//new lab13
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -39,14 +45,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(require('express-session')({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
- }));
- app.use(passport.initialize());
- app.use(passport.session());
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -60,6 +58,16 @@ app.use('/Ball', BallRouter);
 app.use('/board', boardRouter);
 app.use('/selector',selectorRouter);
 app.use('/resource',resourceRouter);
+
+//lab 13
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+ }));
+ app.use(passport.initialize());
+ app.use(passport.session());
+
 // We can seed the collection if needed on
 //server start
 async function recreateDB(){
@@ -93,10 +101,7 @@ if (reseed) { recreateDB();}
 // passport config
 // Use the existing connection
 // The Account model
-var Account =require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
