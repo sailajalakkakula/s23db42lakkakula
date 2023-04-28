@@ -16,13 +16,21 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var Account =require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
 
-passport.use(new LocalStrategy(
+
+var app = express();
+
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+ }));
+ app.use(passport.initialize());
+ app.use(passport.session());
+
+ passport.use(new LocalStrategy(
   function(username, password, done) {
-  Account.findOne({ username: username }, function (err, user) {
+  Account.findOne({ username: username }).then ( (err, user)=> {
   if (err) { return done(err); }
   if (!user) {
   return done(null, false, { message: 'Incorrect username.' });
@@ -33,8 +41,6 @@ passport.use(new LocalStrategy(
   return done(null, user);
   })
   }));
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -60,13 +66,11 @@ app.use('/selector',selectorRouter);
 app.use('/resource',resourceRouter);
 
 //lab 13
-app.use(require('express-session')({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
- }));
- app.use(passport.initialize());
- app.use(passport.session());
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+
 
 // We can seed the collection if needed on
 //server start
@@ -119,7 +123,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+
 
 
 
@@ -130,3 +134,4 @@ db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
 db.once("open", function(){
 console.log("Connection to DB succeeded")});
 
+module.exports = app;

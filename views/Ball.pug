@@ -3,15 +3,25 @@ extends layout
 block content
   h1= title
   - let results = theBalls 
+  - let de = `dispatch(\"/Ball/create\")`
+  button.btn( class="btn-primary ml-1", onclick= de) create
   div(class="container-fluid")
     div(class="row m-1")
       each item,index in results
         - let destination = `dispatch(\"/Ball/update?id=${item._id}\")`
+        - let dest = `dispatch(\"/Ball/delete?id=${item._id}\")`
+        - let des = `dispatch(\"/Ball/detail?id=${item._id}\")`
           div(class="col-sm-2",onClick=`buy(${index})`)
-            p Ball Type is #{item.Ball_Type}
-            p Ball Weight is #{item.Ball_Weight}
-            p Ball Cost is #{item.Ball_Cost}
+            p 
+            Ball Type is #{item.Ball_Type}
+            p 
+            Ball Weight is #{item.Ball_Weight}
+            p 
+            Ball Cost is #{item.Ball_Cost}
             button.btn( class="btn-primary ml-1", onclick= destination) Update
+            button.btn( class="btn-primary ml-1", onclick= dest) delete 
+            button.btn( class="btn-primary ml-1", onclick= des) detail
+            
   script.
     //- function buy(itr) {
     //-   itr = itr+1;
